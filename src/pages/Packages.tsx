@@ -6,6 +6,8 @@ import { useNavigate } from "react-router-dom";
 import indoor7 from "../../public/assets/indoor7-removebg-preview.png";
 import outdoor1 from "../../public/assets/outdoor1-removebg-preview.png";
 import flower2 from "../../public/assets/flowers3-removebg-preview.png";
+import flower3 from "../../public/assets/flowers6-removebg-preview.png";
+
 
 const Packages = () => {
   const navigate = useNavigate();
@@ -33,7 +35,7 @@ const Packages = () => {
       name: "Green Paradise",
       price: 5000,
       originalPrice: 10000,
-      image: flower2,
+      image: flower3,
       description: "Transform your space with this curated collection",
       plants: [
         "Monstera",

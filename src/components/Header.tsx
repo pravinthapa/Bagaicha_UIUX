@@ -18,7 +18,6 @@ const Header = () => {
   }, []);
 
   const handleLogout = () => {
-   
     navigate("/");
   };
 
@@ -32,7 +31,7 @@ const Header = () => {
       <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-10">
         <div className="flex justify-between items-center min-h-[80px]">
           {/* Logo */}
-          <Link to="/" className="flex items-center">
+          <Link to="/home" className="flex items-center">
             <img
               src={logo}
               alt="Bagaicha Nepal"
@@ -124,7 +123,7 @@ const Header = () => {
           <div className="md:hidden">
             <div className="px-4 pt-3 pb-5 space-y-2 border-t border-green-100 text-base font-medium">
               <NavLink
-                to="/"
+                to="/home"
                 onClick={() => setIsMenuOpen(false)}
                 className={navLinkClass}
               >
@@ -183,7 +182,10 @@ const Header = () => {
                     Profile
                   </NavLink>
                   <button
-                    onClick={handleLogout}
+                    onClick={() => {
+                      handleLogout();
+                      setIsMenuOpen(false);
+                    }}
                     className="text-left text-red-600 hover:text-red-800 block w-full px-4"
                   >
                     Logout

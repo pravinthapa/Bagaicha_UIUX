@@ -47,7 +47,7 @@ const HomePage = () => {
       price: 4500,
       image: indoor1,
       description:
-        "Beautiful split-leaf philodendron perfect for indoor spaces",
+        "Beautiful split-leaf philodendron perfect for indoor",
 
       hasPot: true,
       potPrice: 15,
