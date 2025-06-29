@@ -173,10 +173,8 @@ const HomePage = () => {
     <div className="min-h-screen bg-white">
       <Header />
 
-      {/* Hero Section */}
       <section className="bg-[#D9EBF7] py-16 mt-7 rounded-lg shadow-md mx-4 md:mx-16 lg:mx-32 px-4 md:px-16 lg:px-32">
         <div className="grid grid-cols-1 lg:grid-cols-2 gap-10 items-center">
-          {/* Left Text Animation */}
           <motion.div
             className="text-center lg:text-left"
             initial={{ opacity: 0, x: -50 }}
@@ -199,7 +197,6 @@ const HomePage = () => {
             </Link>
           </motion.div>
 
-          {/* Right Image Animation */}
           <motion.div
             className="flex justify-center lg:justify-end"
             initial={{ opacity: 0, x: 50 }}
@@ -215,7 +212,6 @@ const HomePage = () => {
         </div>
       </section>
 
-      {/* Featured Products */}
       <section className="py-16 px-4 md:px-16 lg:px-32">
         <motion.div
           className="bg-[#F4F4F4] rounded-2xl shadow-lg p-6 md:p-12"
@@ -224,7 +220,6 @@ const HomePage = () => {
           viewport={{ once: true, amount: 0.3 }}
           transition={{ duration: 0.6 }}
         >
-          {/* Header */}
           <motion.div
             className="text-center mb-12"
             initial={{ opacity: 0, y: -30 }}
@@ -240,7 +235,6 @@ const HomePage = () => {
             </p>
           </motion.div>
 
-          {/* Product Cards with stagger */}
           <motion.div
             className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6"
             variants={{
@@ -272,7 +266,6 @@ const HomePage = () => {
             ))}
           </motion.div>
 
-          {/* Button */}
           <motion.div
             className="text-center mt-12"
             initial={{ opacity: 0, y: 20 }}
@@ -290,7 +283,6 @@ const HomePage = () => {
         </motion.div>
       </section>
 
-      {/* Categories Section */}
       <section className="py-16 px-4 md:px-16 lg:px-32">
         <motion.div
           className="bg-[#F4F4F4] rounded-2xl shadow-lg p-6 md:p-12"
@@ -299,7 +291,6 @@ const HomePage = () => {
           viewport={{ once: true, amount: 0.3 }}
           transition={{ duration: 0.6 }}
         >
-          {/* Title and Subtitle */}
           <motion.div
             className="text-center mb-12"
             initial={{ opacity: 0, y: -20 }}
@@ -315,7 +306,6 @@ const HomePage = () => {
             </p>
           </motion.div>
 
-          {/* Cards Grid with stagger */}
           <motion.div
             className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-6"
             variants={{
@@ -373,7 +363,6 @@ const HomePage = () => {
           viewport={{ once: true, amount: 0.3 }}
           transition={{ duration: 0.6 }}
         >
-          {/* Heading */}
           <motion.h2
             className="text-center text-3xl md:text-4xl font-semibold text-gray-800 mb-10"
             initial={{ opacity: 0, y: -20 }}
@@ -384,7 +373,6 @@ const HomePage = () => {
             WHY <span className="text-green-500">BAGAICHA NEPAL?</span>
           </motion.h2>
 
-          {/* Feature Grid with stagger */}
           <motion.div
             className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-8"
             variants={{

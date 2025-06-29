@@ -12,10 +12,10 @@ import {
 import { Leaf, Mail, Lock, Eye, EyeOff } from "lucide-react";
 import { useLoginMutation } from "@/hooks/useMutateData";
 import { useAuthStore } from "@/store/useAuthStore";
-import { toast } from "sonner"; // Replaced custom hook with unified toast if you're using Sonner globally
+import { toast } from "sonner";
 
 const LoginPage = () => {
-  const [email, setEmail] = useState(""); // Using email as username here
+  const [email, setEmail] = useState("");
   const [password, setPassword] = useState("");
   const [showPassword, setShowPassword] = useState(false);
   const [isLoading, setIsLoading] = useState(false);
@@ -29,13 +29,34 @@ const LoginPage = () => {
     setIsLoading(true);
 
     const payload = {
-      email: email, 
+      email: email,
       password: password,
     };
 
     loginMutation.mutateAsync(["post", "", payload], {
       onSuccess: (response) => {
-        toast.success("Logged in successfully!");
+        toast.custom(
+          (t) => (
+            <div
+              className="bg-green-600 text-white px-4 py-6 rounded-md shadow-lg w-full max-w-sm"
+              style={{ marginBottom: "0.75rem" }}
+            >
+              <div className="flex justify-between items-center">
+                <span className="text-sm font-medium">
+                  Logged in successfully!
+                </span>
+                <button
+                  onClick={() => toast.dismiss(t)}
+                  className="ml-8 text-xl leading-none hover:text-gray-200"
+                >
+                  ✕
+                </button>
+              </div>
+            </div>
+          ),
+          { duration: 5000, position: "top-right" }
+        );
+
         setUser({
           refresh: response?.refresh,
           token: response?.access,
@@ -45,7 +66,28 @@ const LoginPage = () => {
         navigate("/home");
       },
       onError: () => {
-        toast.error("Login failed! Please check your credentials.");
+        toast.custom(
+          (t) => (
+            <div
+              className="bg-red-600 text-white px-4 py-3 rounded-md shadow-lg w-full max-w-sm"
+              style={{ marginBottom: "0.75rem" }}
+            >
+              <div className="flex justify-between items-center">
+                <span className="text-sm font-medium">
+                  Login failed! Please check your credentials.
+                </span>
+                <button
+                  onClick={() => toast.dismiss(t)}
+                  className="ml-4 text-xl leading-none hover:text-gray-200"
+                >
+                  ✕
+                </button>
+              </div>
+            </div>
+          ),
+          { duration: 5000, position: "top-right" }
+        );
+
         setIsLoading(false);
       },
     });
@@ -92,7 +134,6 @@ const LoginPage = () => {
               />
             </div>
 
-            {/* Password */}
             <div className="space-y-2">
               <label className="text-sm font-medium text-gray-700 flex items-center">
                 <Lock className="w-4 h-4 mr-2 text-green-600" />
@@ -123,7 +164,6 @@ const LoginPage = () => {
               </div>
             </div>
 
-            {/* Forgot Password */}
             <div className="flex items-center justify-between">
               <Link
                 to="/register"
@@ -133,7 +173,6 @@ const LoginPage = () => {
               </Link>
             </div>
 
-            {/* Submit */}
             <Button
               type="submit"
               disabled={isLoading}

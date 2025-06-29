@@ -5,23 +5,23 @@ import ProductCard from "@/components/ProductCard";
 import { Button } from "@/components/ui/button";
 import { Input } from "@/components/ui/input";
 import { Card, CardContent } from "@/components/ui/card";
-import indoor1 from "../../public/assets/indoor1-removebg-preview.png"
-import indoor2 from "../../public/assets/indoor2-removebg-preview.png"
-import indoor3 from "../../public/assets/indoor3-removebg-preview (1).png"
-import indoor4 from "../../public/assets/indoor4-removebg-preview (1).png"
-import indoor5 from "../../public/assets/indoor5-removebg-preview.png"
-import indoor6 from "../../public/assets/indoor6-removebg-preview.png"
-import indoor7 from "../../public/assets/indoor7-removebg-preview.png"
-import outdoor1 from "../../public/assets/outdoor1-removebg-preview.png"
-import outdoor2 from "../../public/assets/outdoor2-removebg-preview.png"
-import outdoor3 from "../../public/assets/outdoor3-removebg-preview.png"
-import outdoor4 from "../../public/assets/outdoor4-removebg-preview.png"
-import outdoor5 from "../../public/assets/outdoor5-removebg-preview.png"
-import outdoor6 from "../../public/assets/outdoor6-removebg-preview.png"
-import flower1 from "../../public/assets/flowers4-removebg-preview.png"
-import flower2 from "../../public/assets/flowers3-removebg-preview.png"
-import flower3 from "../../public/assets/flowers6-removebg-preview.png"
-import flower4 from "../../public/assets/flowers7-removebg-preview (1).png"
+import indoor1 from "../../public/assets/indoor1-removebg-preview.png";
+import indoor2 from "../../public/assets/indoor2-removebg-preview.png";
+import indoor3 from "../../public/assets/indoor3-removebg-preview (1).png";
+import indoor4 from "../../public/assets/indoor4-removebg-preview (1).png";
+import indoor5 from "../../public/assets/indoor5-removebg-preview.png";
+import indoor6 from "../../public/assets/indoor6-removebg-preview.png";
+import indoor7 from "../../public/assets/indoor7-removebg-preview.png";
+import outdoor1 from "../../public/assets/outdoor1-removebg-preview.png";
+import outdoor2 from "../../public/assets/outdoor2-removebg-preview.png";
+import outdoor3 from "../../public/assets/outdoor3-removebg-preview.png";
+import outdoor4 from "../../public/assets/outdoor4-removebg-preview.png";
+import outdoor5 from "../../public/assets/outdoor5-removebg-preview.png";
+import outdoor6 from "../../public/assets/outdoor6-removebg-preview.png";
+import flower1 from "../../public/assets/flowers4-removebg-preview.png";
+import flower2 from "../../public/assets/flowers3-removebg-preview.png";
+import flower3 from "../../public/assets/flowers6-removebg-preview.png";
+import flower4 from "../../public/assets/flowers7-removebg-preview (1).png";
 
 import {
   Search,
@@ -40,6 +40,7 @@ import {
   SelectTrigger,
   SelectValue,
 } from "@/components/ui/select";
+import { useProductData } from "@/hooks/useQueryData";
 
 const Products = () => {
   const navigate = useNavigate();
@@ -52,8 +53,7 @@ const Products = () => {
       id: "1",
       name: "Monstera Deliciosa",
       price: 4500,
-      image:
-       indoor1,
+      image: indoor1,
       description:
         "Beautiful split-leaf philodendron perfect for indoor spaces",
       category: "indoor",
@@ -64,7 +64,7 @@ const Products = () => {
       id: "2",
       name: "Snake Plant",
       price: 2909,
-      image:indoor2,
+      image: indoor2,
       description: "Low maintenance plant ideal for beginners",
       category: "indoor",
       rating: 4.9,
@@ -74,7 +74,7 @@ const Products = () => {
       id: "3",
       name: "Lavender Bush",
       price: 1800,
-      image:outdoor3,
+      image: outdoor3,
       description: "Statement plant with large, glossy leaves",
       category: "outdoor",
       rating: 4.7,
@@ -84,7 +84,7 @@ const Products = () => {
       id: "4",
       name: "Rose Bush",
       price: 3500,
-      image:outdoor2,
+      image: outdoor2,
       description: "Elegant flowering plant that purifies air purify",
       category: "outdoor",
       rating: 4.6,
@@ -94,7 +94,7 @@ const Products = () => {
       id: "5",
       name: "Peace Lily",
       price: 2800,
-      image:flower4,
+      image: flower4,
       description: "Glossy leaves with air-purifying qualities",
       category: "flowers",
       rating: 4.8,
@@ -104,7 +104,7 @@ const Products = () => {
       id: "6",
       name: "Sunflower Seeds",
       price: 1500,
-      image:flower3,
+      image: flower3,
       description: "Drought-tolerant plant perfect for low light",
       category: "indoor",
       rating: 4.9,
@@ -114,7 +114,7 @@ const Products = () => {
       id: "7",
       name: "Bird of Paradise",
       price: 2700,
-      image:indoor7,
+      image: indoor7,
       description: "Tropical outdoor plant with stunning large leaves",
       category: "indoor",
       rating: 4.5,
@@ -124,7 +124,7 @@ const Products = () => {
       id: "8",
       name: "Garden Rose Bush",
       price: 2500,
-      image:outdoor1,
+      image: outdoor1,
       description: "Beautiful outdoor rose bush for gardens",
       category: "outdoor",
       rating: 4.7,
@@ -134,7 +134,7 @@ const Products = () => {
       id: "9",
       name: "Red Rose Bouquet",
       price: 3500,
-      image:outdoor2,
+      image: outdoor2,
       description: "Fresh red roses  special occasions",
       category: "outdoor",
       rating: 4.9,
@@ -144,7 +144,7 @@ const Products = () => {
       id: "10",
       name: "Tulip Mix",
       price: 2809,
-      image:outdoor3,
+      image: outdoor3,
       description: "Colorful tulip arrangement in seasonal",
       category: "outdoor",
       rating: 4.8,
@@ -154,7 +154,7 @@ const Products = () => {
       id: "11",
       name: "Sunflower Bundle",
       price: 1500,
-      image:outdoor4,
+      image: outdoor4,
       description: "Bright sunflowers to brighten any day",
       category: "outdoor",
       rating: 4.7,
@@ -164,20 +164,19 @@ const Products = () => {
       id: "12",
       name: "Modern Ceramic Planter",
       price: 4500,
-      image:outdoor6,
+      image: outdoor6,
       description: "Sleek white ceramic planter drainage",
       category: "outdoor",
       rating: 4.6,
       reviews: 89,
     },
-   
-   
+
     {
       id: "15",
       name: "Lavender Plant",
       price: 1900,
-      image:flower1,
-      
+      image: flower1,
+
       description: "Fragrant outdoor lavender plant",
       category: "flowers",
       rating: 4.6,
@@ -202,7 +201,10 @@ const Products = () => {
     { value: "flowers", label: "Flowers" },
   ];
 
-  const filteredProducts = products.filter((product) => {
+   const { data } = useProductData();
+  console.log(data, "useProductData");
+
+  const filteredProducts = data?.filter((product) => {
     const matchesSearch =
       product.name.toLowerCase().includes(searchTerm.toLowerCase()) ||
       product.description.toLowerCase().includes(searchTerm.toLowerCase());
@@ -212,11 +214,13 @@ const Products = () => {
     return matchesSearch && matchesCategory;
   });
 
+ 
+
   return (
     <div className="min-h-screen bg-gradient-to-br from-emerald-50 via-green-50 to-teal-50 overflow-hidden">
       <Header />
 
-      <section className="relative py-32 mx-36 mt-10 shadow-md rounded-lg bg-gradient-to-r from-emerald-600 via-green-600 to-teal-600 overflow-hidden">
+      {/* <section className="relative py-32 mx-36 mt-10 shadow-md rounded-lg bg-gradient-to-r from-emerald-600 via-green-600 to-teal-600 overflow-hidden">
         <div className="absolute inset-0 bg-[url('https://images.unsplash.com/photo-1441974231531-c6227db76b6e?w=1920')] bg-cover bg-center opacity-20"></div>
         <div className="absolute inset-0 bg-gradient-to-br from-emerald-800/60 to-green-700/60"></div>
 
@@ -271,7 +275,7 @@ const Products = () => {
             </div>
           </div>
         </div>
-      </section>
+      </section> */}
 
       <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-16">
         <Card className="border-0 bg-white/95  border-green-300 mb-16 rounded-3xl">
@@ -326,11 +330,11 @@ const Products = () => {
               <div className="text-lg text-gray-700 font-medium">
                 Showing{" "}
                 <span className="text-emerald-600 font-bold">
-                  {filteredProducts.length}
+                  {filteredProducts?.length}
                 </span>{" "}
                 of{" "}
                 <span className="text-emerald-600 font-bold">
-                  {products.length}
+                  {products?.length}
                 </span>{" "}
                 products
               </div>
@@ -338,7 +342,7 @@ const Products = () => {
           </CardContent>
         </Card>
 
-        {filteredProducts.length === 0 ? (
+        {filteredProducts?.length === 0 ? (
           <div className="text-center py-32 animate-fade-in">
             <div className="bg-gradient-to-br from-white to-emerald-50 rounded-full w-48 h-48 mx-auto mb-12 flex items-center justify-center shadow-2xl border border-emerald-100">
               <Search className="w-24 h-24 text-emerald-600 animate-pulse" />
@@ -369,7 +373,7 @@ const Products = () => {
                 : "space-y-8"
             }
           >
-            {filteredProducts.map((product, index) => (
+            {filteredProducts?.map((product, index) => (
               <div
                 key={product.id}
                 className="animate-fade-in"

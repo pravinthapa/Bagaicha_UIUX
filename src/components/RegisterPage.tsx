@@ -38,7 +38,27 @@ const RegisterPage = () => {
     e.preventDefault();
 
     if (formData.password !== formData.confirm_password) {
-      toast.error("Passwords do not match.");
+      toast.custom(
+        (t) => (
+          <div
+            className="bg-red-600 text-white px-4 py-3 rounded-md shadow-lg w-full max-w-sm"
+            style={{ marginBottom: "0.75rem" }}
+          >
+            <div className="flex justify-between items-center">
+              <span className="text-sm font-medium">
+                Passwords do not match.
+              </span>
+              <button
+                onClick={() => toast.dismiss(t)}
+                className="ml-4 text-xl leading-none hover:text-gray-200"
+              >
+                ✕
+              </button>
+            </div>
+          </div>
+        ),
+        { duration: 5000, position: "top-right" }
+      );
       return;
     }
 
@@ -53,11 +73,52 @@ const RegisterPage = () => {
 
     userRegisterMutation.mutateAsync(["post", "", payload], {
       onSuccess: () => {
-        toast.success("Account Created Successfully!");
+        toast.custom(
+          (t) => (
+            <div
+              className="bg-green-600 text-white px-4 py-3 rounded-md shadow-lg w-full max-w-sm"
+              style={{ marginBottom: "0.75rem" }}
+            >
+              <div className="flex justify-between items-center">
+                <span className="text-sm font-medium">
+                  Account created successfully!
+                </span>
+                <button
+                  onClick={() => toast.dismiss(t)}
+                  className="ml-4 text-xl leading-none hover:text-gray-200"
+                >
+                  ✕
+                </button>
+              </div>
+            </div>
+          ),
+          { duration: 5000, position: "top-right" }
+        );
+
         navigate("/");
       },
       onError: () => {
-        toast.error("Registration failed! Please check your input.");
+        toast.custom(
+          (t) => (
+            <div
+              className="bg-red-600 text-white px-4 py-3 rounded-md shadow-lg w-full max-w-sm"
+              style={{ marginBottom: "0.75rem" }}
+            >
+              <div className="flex justify-between items-center">
+                <span className="text-sm font-medium">
+                  Registration failed! Please check your input.
+                </span>
+                <button
+                  onClick={() => toast.dismiss(t)}
+                  className="ml-4 text-xl leading-none hover:text-gray-200"
+                >
+                  ✕
+                </button>
+              </div>
+            </div>
+          ),
+          { duration: 5000, position: "top-right" }
+        );
       },
     });
   };

@@ -31,3 +31,8 @@ export const useQueryData = (
 
 // Updated to fetch support tickets
 
+export const useProductData = () =>
+  useQueryData(["product"], `product/product/`);
+
+export const useProductDetails = (id) =>
+  useQueryData(["product",id], `product/product/${id}`);

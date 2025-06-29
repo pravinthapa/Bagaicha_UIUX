@@ -3,6 +3,7 @@ import { Link, NavLink, useNavigate } from "react-router-dom";
 import { ShoppingCart, User, Menu, X, Package, LogOut } from "lucide-react";
 import { Button } from "@/components/ui/button";
 import { useCartContext } from "@/contexts/CartContext";
+import { toast } from "sonner";
 import logo from "../../public/assets/bagaicha_logo.jpg";
 
 const Header = () => {
@@ -18,6 +19,30 @@ const Header = () => {
   }, []);
 
   const handleLogout = () => {
+    toast.custom(
+      (t) => (
+        <div
+          className="bg-green-600 text-white px-4 py-3 rounded-md shadow-lg w-full max-w-sm"
+          style={{ marginBottom: "0.75rem" }}
+        >
+          <div className="flex justify-between items-center">
+            <span className="text-sm font-medium">
+              Logged out successfully!
+            </span>
+            <button
+              onClick={() => toast.dismiss(t)}
+              className="ml-4 text-xl leading-none hover:text-gray-200"
+            >
+              ✕
+            </button>
+          </div>
+        </div>
+      ),
+      { duration: 5000, position: "top-right" }
+    );
+
+    localStorage.removeItem("user");
+    setUser(null);
     navigate("/");
   };
 
@@ -30,7 +55,6 @@ const Header = () => {
     <header className="bg-white shadow-sm border-b border-green-100 sticky top-0 z-50 py-4">
       <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-10">
         <div className="flex justify-between items-center min-h-[80px]">
-          {/* Logo */}
           <Link to="/home" className="flex items-center">
             <img
               src={logo}
@@ -39,7 +63,6 @@ const Header = () => {
             />
           </Link>
 
-          {/* Desktop Nav */}
           <nav className="hidden md:flex items-center space-x-10">
             <NavLink to="/home" className={navLinkClass}>
               Home
@@ -61,13 +84,13 @@ const Header = () => {
             </NavLink>
           </nav>
 
-          {/* Right Icons */}
           <div className="flex items-center space-x-5 relative">
             <Link to="/orders">
               <Button variant="ghost" size="icon" className="relative">
                 <Package className="w-6 h-6" />
               </Button>
             </Link>
+
             <Link to="/cart">
               <Button variant="ghost" size="icon" className="relative">
                 <ShoppingCart className="w-6 h-6" />
@@ -79,7 +102,6 @@ const Header = () => {
               </Button>
             </Link>
 
-            {/* Profile Dropdown */}
             <div className="relative">
               <Button
                 variant="ghost"
@@ -102,7 +124,6 @@ const Header = () => {
               )}
             </div>
 
-            {/* Mobile Menu Icon */}
             <Button
               variant="ghost"
               size="icon"
@@ -118,7 +139,6 @@ const Header = () => {
           </div>
         </div>
 
-        {/* Mobile Menu */}
         {isMenuOpen && (
           <div className="md:hidden">
             <div className="px-4 pt-3 pb-5 space-y-2 border-t border-green-100 text-base font-medium">
