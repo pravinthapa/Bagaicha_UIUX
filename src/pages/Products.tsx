@@ -40,7 +40,7 @@ import {
   SelectTrigger,
   SelectValue,
 } from "@/components/ui/select";
-import { useProductData } from "@/hooks/useQueryData";
+import { useCategoryData, useProductData } from "@/hooks/useQueryData";
 
 const Products = () => {
   const navigate = useNavigate();
@@ -202,7 +202,7 @@ const Products = () => {
   ];
 
    const { data } = useProductData();
-  console.log(data, "useProductData");
+
 
   const filteredProducts = data?.filter((product) => {
     const matchesSearch =

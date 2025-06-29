@@ -15,6 +15,7 @@ interface Product {
   id: string;
   name: string;
   price: number;
+  discount_price?: number;
   image: string;
   description: string;
 }
@@ -28,6 +29,15 @@ const ProductCard = ({ product }: ProductCardProps) => {
   const navigate = useNavigate();
   const [isLoading, setIsLoading] = useState(false);
 
+  const getDiscountPercent = () => {
+    if (!product.discount_price) return 0;
+    return Math.round(
+      ((product.price - product.discount_price) / product.price) * 100
+    );
+  };
+
+  const discountPercent = getDiscountPercent();
+
   const handleAddToCart = (e: React.MouseEvent) => {
     e.stopPropagation();
     setIsLoading(true);
@@ -36,7 +46,7 @@ const ProductCard = ({ product }: ProductCardProps) => {
       addToCart({
         id: product.id,
         name: product.name,
-        price: product.price,
+        price: product.discount_price ?? product.price,
         image: product.image,
       });
       setIsLoading(false);
@@ -79,10 +89,13 @@ const ProductCard = ({ product }: ProductCardProps) => {
           {product.description}
         </p>
 
-        <div>
-          <span className="text-lg font-bold text-gray-900">
-            NPR {product.price}
-          </span>
+        <div className="flex items-center space-x-3">
+          <span className="text-gray-900 font-bold">NPR {product.price}</span>
+          {discountPercent > 0 && (
+            <span className="bg-red-100 text-red-700 px-2 py-0.5 rounded text-xs font-semibold">
+              {discountPercent}% OFF
+            </span>
+          )}
         </div>
       </CardContent>
 

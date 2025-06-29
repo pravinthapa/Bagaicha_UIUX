@@ -36,3 +36,5 @@ export const useProductData = () =>
 
 export const useProductDetails = (id) =>
   useQueryData(["product",id], `product/product/${id}`);
+
+

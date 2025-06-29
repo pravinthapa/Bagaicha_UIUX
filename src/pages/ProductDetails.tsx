@@ -39,8 +39,7 @@ const ProductDetails = () => {
   }
 
   const getTotalPrice = () => {
-    let total =  product.price;
-    return total;
+    return product.price;
   };
 
   const handleAddToCart = () => {
@@ -67,6 +66,30 @@ const ProductDetails = () => {
     });
   };
 
+  // Calculate discount percent rounded to nearest integer
+  const getDiscountPercent = () => {
+    if (!product.discount_price) return 0;
+    return Math.round(
+      ((product.price - product.discount_price) / product.price) * 100
+    );
+  };
+
+  // Split text by newline(s) and map to list points
+  const convertToPoints = (text: string) => {
+    return text
+      .split(/\n+/)
+      .filter((line) => line.trim().length > 0)
+      .map((point, index) => (
+        <li
+          key={index}
+          className="relative pl-6 mb-2 text-gray-700 hover:text-green-600 transition-colors duration-200 group list-none"
+        >
+          <span className="absolute left-0 top-2 w-2 h-2 bg-green-500 rounded-full group-hover:bg-green-600"></span>
+          {point.trim()}
+        </li>
+      ));
+  };
+
   return (
     <div className="min-h-screen bg-gray-50">
       <Header />
@@ -91,13 +114,12 @@ const ProductDetails = () => {
             </div>
           </div>
 
-          {/* Product Info */}
           <div className="space-y-6">
             <div>
               <div className="flex items-center space-x-2 mb-2">
-                {/* <span className="bg-green-100 text-green-800 text-xs font-medium px-3 py-1 rounded-full animate-fade-in">
-                  {product.category?.name} 
-                </span> */}
+                <span className="bg-green-100 text-green-800 text-xl font-medium px-4 py-2 rounded-full animate-fade-in">
+                  {product.category?.name}
+                </span>
               </div>
 
               <h1 className="text-4xl font-bold text-gray-900 mb-4 animate-fade-in">
@@ -108,23 +130,23 @@ const ProductDetails = () => {
                 {product.description}
               </p>
 
-              <p className="text-4xl font-bold text-green-600 mb-6 animate-fade-in">
-                NPR { product.price}
-              </p>
-
-              {/* Tags */}
-              {/* {product.tag && product.tag.length > 0 && (
-                <div className="flex gap-2 flex-wrap">
-                  {product.tag.map((tag) => (
-                    <span
-                      key={tag.id}
-                      className="bg-gray-200 text-gray-800 px-2 py-1 text-xs rounded-full"
-                    >
-                      {tag.name}
+              <p className="text-4xl font-bold mb-6 animate-fade-in flex items-center space-x-3">
+                {product.discount_price ? (
+                  <>
+                    <span className="text-red-600 line-through">
+                      Rs{product.price}
                     </span>
-                  ))}
-                </div>
-              )} */}
+                    <span className="text-green-600 font-extrabold">
+                      Rs{product.discount_price}
+                    </span>
+                    <span className="bg-red-100 text-red-700 px-2 py-1 rounded text-sm font-semibold">
+                      {getDiscountPercent()}% OFF
+                    </span>
+                  </>
+                ) : (
+                  <span className="text-green-600">NPR {product.price}</span>
+                )}
+              </p>
             </div>
 
             <div className="flex space-x-4 animate-fade-in">
@@ -137,28 +159,34 @@ const ProductDetails = () => {
               </Button>
             </div>
 
-            {/* Care Instructions */}
             {product.care_instructions && (
               <Card className="shadow-lg border-green-100 animate-fade-in">
                 <CardContent className="p-6">
                   <h3 className="text-xl font-semibold text-gray-900 mb-4 flex items-center">
-                    <div className="w-2 h-2 bg-green-500 rounded-full mr-3"></div>
+                    <div className="w-2 h-2 bg-black rounded-full mr-3"></div>
                     Care Instructions
                   </h3>
-                  <p>{product.care_instructions}</p>
+                  <ul className="list-disc  pl-5 text-gray-700">
+                    {convertToPoints(product.care_instructions)}
+                  </ul>
                 </CardContent>
               </Card>
             )}
 
-            {/* Meta Description */}
             {product.meta_description && (
               <Card className="shadow-lg border-green-100 animate-fade-in">
                 <CardContent className="p-6">
                   <h3 className="text-xl font-semibold text-gray-900 mb-4 flex items-center">
-                    <div className="w-2 h-2 bg-green-500 rounded-full mr-3"></div>
+                    <div className="w-2 h-2 bg-black rounded-full mr-3"></div>
                     Meta Description
                   </h3>
-                  <p>{product.meta_description}</p>
+                  {product.meta_description.includes("\n") ? (
+                    <ul className="list-disc pl-5 text-gray-700">
+                      {convertToPoints(product.meta_description)}
+                    </ul>
+                  ) : (
+                    <p className="text-gray-700">{product.meta_description}</p>
+                  )}
                 </CardContent>
               </Card>
             )}
