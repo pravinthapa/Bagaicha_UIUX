@@ -4,7 +4,7 @@ import { ShoppingCart, User, Menu, X, Package, LogOut } from "lucide-react";
 import { Button } from "@/components/ui/button";
 import { useCartContext } from "@/contexts/CartContext";
 import { toast } from "sonner";
-import logo from "../../public/assets/bagaicha_logo.jpg";
+import logo from "../../public/assets/Screenshot 2025-06-26 135122 copy.png";
 
 const Header = () => {
   const [isMenuOpen, setIsMenuOpen] = useState(false);
@@ -52,7 +52,7 @@ const Header = () => {
       : "text-gray-700 hover:text-green-600 font-medium text-lg";
 
   return (
-    <header className="bg-white shadow-sm border-b border-green-100 sticky top-0 z-50 py-4">
+    <header className="bg-white shadow-sm border-b border-green-100 sticky top-0 z-50 ">
       <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-10">
         <div className="flex justify-between items-center min-h-[80px]">
           <Link to="/home" className="flex items-center">
