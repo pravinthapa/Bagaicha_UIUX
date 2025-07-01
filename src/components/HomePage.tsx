@@ -38,16 +38,18 @@ import outdoor3 from "../../public/assets/outdoor3-removebg-preview.png";
 import outdoor2 from "../../public/assets/outdoor2-removebg-preview.png";
 import flower4 from "../../public/assets/flowers7-removebg-preview (1).png";
 import flower3 from "../../public/assets/flowers6-removebg-preview.png";
+import { useProductData } from "@/hooks/useQueryData";
 
 const HomePage = () => {
+  const { data } = useProductData();
+
   const featuredProducts = [
     {
       id: "1",
       name: "Monstera Deliciosa",
       price: 4500,
       image: indoor1,
-      description:
-        "Beautiful split-leaf philodendron perfect for indoor",
+      description: "Beautiful split-leaf philodendron perfect for indoor",
 
       hasPot: true,
       potPrice: 15,
@@ -212,7 +214,7 @@ const HomePage = () => {
         </div>
       </section>
 
-      <section className="py-16 px-4 md:px-16 lg:px-32">
+      <section className="py-16 mt-10 px-4 md:px-16 lg:px-32">
         <motion.div
           className="bg-[#F4F4F4] rounded-2xl shadow-lg p-6 md:p-12"
           initial={{ opacity: 0, y: 50 }}
@@ -245,17 +247,17 @@ const HomePage = () => {
                 },
               },
             }}
-            initial="hidden"
+            // initial="hidden"
             whileInView="visible"
             viewport={{ once: true }}
           >
-            {featuredProducts.map((product) => (
+            {data?.slice(0, 3)?.map((product) => (
               <motion.div
                 key={product.id}
-                variants={{
-                  hidden: { opacity: 0, y: 20 },
-                  visible: { opacity: 1, y: 0 },
-                }}
+                // variants={{
+                //   hidden: { opacity: 0, y: 20 },
+                //   visible: { opacity: 1, y: 0 },
+                // }}
                 transition={{ duration: 0.5 }}
               >
                 <ProductCard

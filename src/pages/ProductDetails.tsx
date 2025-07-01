@@ -8,6 +8,7 @@ import { useCartContext } from "@/contexts/CartContext";
 import { useToast } from "@/hooks/use-toast";
 import { useState } from "react";
 import { useProductDetails } from "@/hooks/useQueryData";
+import { P } from "node_modules/framer-motion/dist/types.d-BSoEx4Ea";
 
 const ProductDetails = () => {
   const { id } = useParams();
@@ -68,7 +69,7 @@ const ProductDetails = () => {
 
   // Calculate discount percent rounded to nearest integer
   const getDiscountPercent = () => {
-    if (!product.discount_price) return 0;
+    if (!product.discount_price) return;
     return Math.round(
       ((product.price - product.discount_price) / product.price) * 100
     );
@@ -90,6 +91,7 @@ const ProductDetails = () => {
       ));
   };
 
+  const discount = getDiscountPercent();
   return (
     <div className="min-h-screen bg-gray-50">
       <Header />
@@ -130,21 +132,26 @@ const ProductDetails = () => {
                 {product.description}
               </p>
 
-              <p className="text-4xl font-bold mb-6 animate-fade-in flex items-center space-x-3">
-                {product.discount_price ? (
+              <p className="text-2xl font-bold mb-6 animate-fade-in flex items-center space-x-3">
+                {product.discount_price &&
+                product.discount_price < product.price ? (
                   <>
                     <span className="text-red-600 line-through">
-                      Rs{product.price}
+                      Rs {product.price}
                     </span>
-                    <span className="text-green-600 font-extrabold">
-                      Rs{product.discount_price}
+                    <span className="text-green-600 text-4xl font-extrabold">
+                      Rs {product.discount_price}
                     </span>
-                    <span className="bg-red-100 text-red-700 px-2 py-1 rounded text-sm font-semibold">
-                      {getDiscountPercent()}% OFF
-                    </span>
+                    {discount > 0 && (
+                      <span className="bg-red-100 text-red-700 px-2 py-1 rounded text-sm font-semibold">
+                        {`${getDiscountPercent()}% OFF`}
+                      </span>
+                    )}
                   </>
                 ) : (
-                  <span className="text-green-600">NPR {product.price}</span>
+                  <span className="text-green-600 text-4xl font-extrabold">
+                    Rs {product.price}
+                  </span>
                 )}
               </p>
             </div>

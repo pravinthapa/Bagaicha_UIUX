@@ -40,7 +40,7 @@ import {
   SelectTrigger,
   SelectValue,
 } from "@/components/ui/select";
-import { useCategoryData, useProductData } from "@/hooks/useQueryData";
+import { useProductData } from "@/hooks/useQueryData";
 
 const Products = () => {
   const navigate = useNavigate();
@@ -196,86 +196,28 @@ const Products = () => {
 
   const categories = [
     { value: "all", label: "All Products" },
-    { value: "indoor", label: "Indoor Plants" },
+    { value: "Indoor", label: "Indoor Plants" },
     { value: "outdoor", label: "Outdoor Plants" },
-    { value: "flowers", label: "Flowers" },
+    { value: "flower", label: "Flower" },
   ];
 
-   const { data } = useProductData();
+  const { data } = useProductData();
+  console.log(data, "dataa");
 
-
+  console.log(selectedCategory);
   const filteredProducts = data?.filter((product) => {
     const matchesSearch =
       product.name.toLowerCase().includes(searchTerm.toLowerCase()) ||
       product.description.toLowerCase().includes(searchTerm.toLowerCase());
     const matchesCategory =
-      selectedCategory === "all" || product.category === selectedCategory;
+      selectedCategory === "all" || product.category.name === selectedCategory;
 
     return matchesSearch && matchesCategory;
   });
 
- 
-
   return (
     <div className="min-h-screen bg-gradient-to-br from-emerald-50 via-green-50 to-teal-50 overflow-hidden">
       <Header />
-
-      {/* <section className="relative py-32 mx-36 mt-10 shadow-md rounded-lg bg-gradient-to-r from-emerald-600 via-green-600 to-teal-600 overflow-hidden">
-        <div className="absolute inset-0 bg-[url('https://images.unsplash.com/photo-1441974231531-c6227db76b6e?w=1920')] bg-cover bg-center opacity-20"></div>
-        <div className="absolute inset-0 bg-gradient-to-br from-emerald-800/60 to-green-700/60"></div>
-
-        <div className="relative max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 z-10">
-          <div className="mb-10 animate-fade-in">
-            <Button
-              onClick={() => navigate(-1)}
-              variant="ghost"
-              className="text-white hover:text-white hover:bg-white/20 backdrop-blur-sm rounded-full transition-all duration-300 hover:scale-105 transform hover:-translate-y-1"
-            >
-              <ArrowLeft className="w-5 h-5 mr-2" />
-              Back to Home
-            </Button>
-          </div>
-
-          <div className="text-center text-white animate-fade-in">
-            <h1 className="text-6xl md:text-8xl font-bold mb-8 tracking-wide">
-              <span className="bg-gradient-to-r from-white via-emerald-100 to-green-200 bg-clip-text text-transparent">
-                Plant Collection
-              </span>
-            </h1>
-            <p className="text-2xl md:text-3xl font-light max-w-4xl mx-auto leading-relaxed mb-12">
-              Discover beautiful plants, vibrant flowers, and elegant planters
-              for every space
-            </p>
-            <div className="flex flex-wrap justify-center gap-6 text-xl">
-              {[
-                {
-                  emoji: "🌿",
-                  text: "Indoor Plants",
-                  color: "from-emerald-400 to-green-500",
-                },
-                {
-                  emoji: "🌳",
-                  text: "Outdoor Plants",
-                  color: "from-green-400 to-emerald-500",
-                },
-                {
-                  emoji: "🌸",
-                  text: "Beautiful Flowers",
-                  color: "from-pink-400 to-rose-500",
-                },
-              ].map((item, index) => (
-                <span
-                  key={index}
-                  className={`bg-gradient-to-r ${item.color} text-white backdrop-blur-sm px-6 py-3 rounded-full font-medium shadow-xl hover:scale-105 transition-all duration-300 animate-fade-in`}
-                  style={{ animationDelay: `${index * 200}ms` }}
-                >
-                  {item.emoji} {item.text}
-                </span>
-              ))}
-            </div>
-          </div>
-        </div>
-      </section> */}
 
       <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-16">
         <Card className="border-0 bg-white/95  border-green-300 mb-16 rounded-3xl">
@@ -323,20 +265,6 @@ const Products = () => {
                     ))}
                   </SelectContent>
                 </Select>
-              </div>
-            </div>
-
-            <div className="flex flex-col lg:flex-row justify-between items-center pt-8 border-t border-emerald-100 gap-6">
-              <div className="text-lg text-gray-700 font-medium">
-                Showing{" "}
-                <span className="text-emerald-600 font-bold">
-                  {filteredProducts?.length}
-                </span>{" "}
-                of{" "}
-                <span className="text-emerald-600 font-bold">
-                  {products?.length}
-                </span>{" "}
-                products
               </div>
             </div>
           </CardContent>

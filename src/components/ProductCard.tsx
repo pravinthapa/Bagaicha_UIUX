@@ -18,6 +18,7 @@ interface Product {
   discount_price?: number;
   image: string;
   description: string;
+  meta_description?: string;
 }
 
 interface ProductCardProps {
@@ -65,7 +66,7 @@ const ProductCard = ({ product }: ProductCardProps) => {
       <CardHeader className="p-0 relative overflow-hidden">
         <div className="h-56 bg-gradient-to-br from-emerald-50 to-green-50 flex items-center justify-center p-4 relative overflow-hidden">
           <img
-            src={product.image}
+            src={product.image ? product.image : product?.products?.image}
             alt={product.name}
             className="max-h-full max-w-full object-contain transition-transform duration-500 group-hover:scale-105"
           />
@@ -86,7 +87,9 @@ const ProductCard = ({ product }: ProductCardProps) => {
         </CardTitle>
 
         <p className="text-gray-600 text-sm leading-relaxed line-clamp-2">
-          {product.description}
+          {product?.description
+            ? product?.description
+            : product?.meta_description}
         </p>
 
         <div className="flex items-center space-x-3">
