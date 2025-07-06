@@ -1,22 +1,21 @@
 import { useParams, useNavigate } from "react-router-dom";
 import { ArrowLeft, ShoppingCart } from "lucide-react";
 import Header from "@/components/Header";
-import ProductCard from "@/components/ProductCard";
 import { Button } from "@/components/ui/button";
 import { Card, CardContent } from "@/components/ui/card";
 import { useCartContext } from "@/contexts/CartContext";
 import { useToast } from "@/hooks/use-toast";
 import { useState } from "react";
 import { useProductDetails } from "@/hooks/useQueryData";
-import { P } from "node_modules/framer-motion/dist/types.d-BSoEx4Ea";
 
 const ProductDetails = () => {
   const { id } = useParams();
   const navigate = useNavigate();
   const { addToCart } = useCartContext();
   const { toast } = useToast();
+
   const [isLiked, setIsLiked] = useState(false);
-  const [includePot] = useState(false);
+  const [quantity, setQuantity] = useState(1);
 
   const { data: product } = useProductDetails(id);
 
@@ -40,20 +39,22 @@ const ProductDetails = () => {
   }
 
   const getTotalPrice = () => {
-    return product.price;
+    return product.discount_price ?? product.price;
   };
 
   const handleAddToCart = () => {
-    addToCart({
-      id: product.id,
-      name: product.name,
-      price: getTotalPrice(),
-      image: product.image ?? "/assets/placeholder-plant.png",
-    });
+    for (let i = 0; i < quantity; i++) {
+      addToCart({
+        id: product.id,
+        name: product.name,
+        price: getTotalPrice(),
+        image: product.image ?? "/assets/placeholder-plant.png",
+      });
+    }
 
     toast({
       title: "Added to Cart",
-      description: `${product.name} added to your cart.`,
+      description: `${product.name} (x${quantity}) added to your cart.`,
     });
   };
 
@@ -67,7 +68,6 @@ const ProductDetails = () => {
     });
   };
 
-  // Calculate discount percent rounded to nearest integer
   const getDiscountPercent = () => {
     if (!product.discount_price) return;
     return Math.round(
@@ -75,7 +75,6 @@ const ProductDetails = () => {
     );
   };
 
-  // Split text by newline(s) and map to list points
   const convertToPoints = (text: string) => {
     return text
       .split(/\n+/)
@@ -92,6 +91,7 @@ const ProductDetails = () => {
   };
 
   const discount = getDiscountPercent();
+
   return (
     <div className="min-h-screen bg-gray-50">
       <Header />
@@ -144,7 +144,7 @@ const ProductDetails = () => {
                     </span>
                     {discount > 0 && (
                       <span className="bg-red-100 text-red-700 px-2 py-1 rounded text-sm font-semibold">
-                        {`${getDiscountPercent()}% OFF`}
+                        {`${discount}% OFF`}
                       </span>
                     )}
                   </>
@@ -156,7 +156,26 @@ const ProductDetails = () => {
               </p>
             </div>
 
-            <div className="flex space-x-4 animate-fade-in">
+            {/* Quantity + Add to Cart */}
+            <div className="flex flex-col sm:flex-row sm:items-center sm:space-x-4 space-y-4 sm:space-y-0 animate-fade-in">
+              <div className="flex items-center border border-gray-300 rounded-lg overflow-hidden w-max">
+                <button
+                  onClick={() => setQuantity((q) => Math.max(1, q - 1))}
+                  className="px-4 py-2 bg-gray-100 hover:bg-gray-200 text-xl"
+                >
+                  -
+                </button>
+                <span className="px-6 py-2 text-lg font-semibold bg-white text-gray-800">
+                  {quantity}
+                </span>
+                <button
+                  onClick={() => setQuantity((q) => q + 1)}
+                  className="px-4 py-2 bg-gray-100 hover:bg-gray-200 text-xl"
+                >
+                  +
+                </button>
+              </div>
+
               <Button
                 onClick={handleAddToCart}
                 className="flex-1 bg-green-600 hover:bg-green-700 text-white text-lg py-3 transition-all duration-200 hover:scale-105 shadow-lg"
@@ -166,6 +185,7 @@ const ProductDetails = () => {
               </Button>
             </div>
 
+            {/* Care Instructions */}
             {product.care_instructions && (
               <Card className="shadow-lg border-green-100 animate-fade-in">
                 <CardContent className="p-6">
@@ -180,6 +200,7 @@ const ProductDetails = () => {
               </Card>
             )}
 
+            {/* Meta Description */}
             {product.meta_description && (
               <Card className="shadow-lg border-green-100 animate-fade-in">
                 <CardContent className="p-6">

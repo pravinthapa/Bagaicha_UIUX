@@ -54,6 +54,12 @@ const ProductCard = ({ product }: ProductCardProps) => {
     }, 500);
   };
 
+  const handleShopNow = (e: React.MouseEvent) => {
+    e.stopPropagation();
+    // You can also store the product in context or localStorage for checkout
+    navigate("/checkout", { state: { product } });
+  };
+
   const handleProductClick = () => {
     navigate(`/product/${product.id}`);
   };
@@ -66,13 +72,11 @@ const ProductCard = ({ product }: ProductCardProps) => {
       <CardHeader className="p-0 relative overflow-hidden">
         <div className="h-56 bg-gradient-to-br from-emerald-50 to-green-50 flex items-center justify-center p-4 relative overflow-hidden">
           <img
-            src={product.image ? product.image : product?.products?.image}
+            src={product.image}
             alt={product.name}
             className="max-h-full max-w-full object-contain transition-transform duration-500 group-hover:scale-105"
           />
-
           <div className="absolute inset-0 bg-gradient-to-t from-black/30 via-transparent to-transparent opacity-0 group-hover:opacity-100 transition-opacity duration-500" />
-
           <div className="absolute inset-0 flex items-center justify-center opacity-0 group-hover:opacity-100 transition-all duration-300">
             <Button className="bg-white/90 backdrop-blur-sm text-emerald-600 hover:bg-white font-semibold rounded-full px-5 py-1.5 shadow-xl text-sm transform translate-y-4 group-hover:translate-y-0 transition-all duration-300">
               Quick View
@@ -85,15 +89,14 @@ const ProductCard = ({ product }: ProductCardProps) => {
         <CardTitle className="text-base font-semibold text-gray-900 group-hover:text-emerald-600 transition-colors duration-300 leading-tight">
           {product.name}
         </CardTitle>
-
         <p className="text-gray-600 text-sm leading-relaxed line-clamp-2">
-          {product?.description
-            ? product?.description
-            : product?.meta_description}
+          {product.description || product.meta_description}
         </p>
 
         <div className="flex items-center space-x-3">
-          <span className="text-gray-900 font-bold">NPR {product.price}</span>
+          <span className="text-gray-900 font-bold">
+            NPR {product.discount_price ?? product.price}
+          </span>
           {discountPercent > 0 && (
             <span className="bg-red-100 text-red-700 px-2 py-0.5 rounded text-xs font-semibold">
               {discountPercent}% OFF
@@ -102,14 +105,25 @@ const ProductCard = ({ product }: ProductCardProps) => {
         </div>
       </CardContent>
 
-      <CardFooter className="p-4 pt-0">
+      <CardFooter className="p-4 pt-0 flex gap-2">
+        <Button
+          onClick={handleShopNow}
+          className="w-1/2 bg-white border border-emerald-600 text-emerald-600 
+             hover:bg-gradient-to-r hover:from-emerald-600 hover:to-green-600 
+             hover:text-white hover:border-transparent 
+             font-bold py-3 text-sm rounded-lg shadow-sm 
+             hover:shadow-md transition-all duration-300"
+        >
+          Shop Now
+        </Button>
+
         <Button
           onClick={handleAddToCart}
           disabled={isLoading}
-          className="w-full bg-gradient-to-r from-emerald-600 to-green-600 hover:from-emerald-700 hover:to-green-700 text-white font-bold py-3 text-sm rounded-lg shadow-md hover:shadow-lg transition-all duration-300 group-hover:scale-105 disabled:opacity-50 disabled:cursor-not-allowed"
+          className="w-1/2 bg-gradient-to-r from-emerald-600 to-green-600 hover:from-emerald-700 hover:to-green-700 text-white font-bold py-3 text-sm rounded-lg shadow-md hover:shadow-lg transition-all duration-300 disabled:opacity-50 disabled:cursor-not-allowed"
         >
           {isLoading ? (
-            <div className="flex items-center">
+            <div className="flex items-center justify-center">
               <div className="w-4 h-4 border-2 border-white/30 border-t-white rounded-full animate-spin mr-2"></div>
               Adding...
             </div>

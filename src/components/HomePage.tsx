@@ -1,7 +1,9 @@
-import { Button } from "@/components/ui/button";
-import { Card, CardContent } from "@/components/ui/card";
+import { useEffect, useState } from "react";
+import { Link, useLocation } from "react-router-dom";
 import { motion } from "framer-motion";
 
+import { Button } from "@/components/ui/button";
+import { Card, CardContent } from "@/components/ui/card";
 import {
   Leaf,
   ShoppingCart,
@@ -21,10 +23,9 @@ import {
   Phone,
   Mail,
 } from "lucide-react";
-import { Link } from "react-router-dom";
+
 import Header from "./Header";
 import ProductCard from "./ProductCard";
-import PotShowcase from "./PotShowcase";
 import image1 from "../../public/assets/guarantee.png";
 import image2 from "../../public/assets/box-.png";
 import image3 from "../../public/assets/best-price.png";
@@ -38,99 +39,75 @@ import outdoor3 from "../../public/assets/outdoor3-removebg-preview.png";
 import outdoor2 from "../../public/assets/outdoor2-removebg-preview.png";
 import flower4 from "../../public/assets/flowers7-removebg-preview (1).png";
 import flower3 from "../../public/assets/flowers6-removebg-preview.png";
+
 import { useProductData } from "@/hooks/useQueryData";
 
+const categories = [
+  {
+    value: "all",
+    label: "All Products",
+    name: "all",
+    count: "20+ Plants",
+    image: indoor2,
+    icon: Leaf,
+  },
+  {
+    value: "Indoor",
+    label: "Indoor Plants",
+    name: "Indoor Plants",
+    count: "10+ Plants",
+    image: indoor1,
+    icon: Leaf,
+  },
+  {
+    value: "outdoor",
+    label: "Outdoor Plants",
+    name: "Outdoor Plants",
+    count: "8+ Plants",
+    image: outdoor2,
+    icon: Leaf,
+  },
+  {
+    value: "flower",
+    label: "Flower",
+    name: "Fresh Flowers",
+    count: "5+ Varieties",
+    image: flower3,
+    icon: Flower,
+  },
+];
+
 const HomePage = () => {
+  const location = useLocation();
+  const [selectedCategory, setSelectedCategory] = useState("all");
+  const [searchTerm, setSearchTerm] = useState("");
   const { data } = useProductData();
 
-  const featuredProducts = [
-    {
-      id: "1",
-      name: "Monstera Deliciosa",
-      price: 4500,
-      image: indoor1,
-      description: "Beautiful split-leaf philodendron perfect for indoor",
+  useEffect(() => {
+    const params = new URLSearchParams(location.search);
+    const categoryParam = params.get("category");
 
-      hasPot: true,
-      potPrice: 15,
-    },
-    {
-      id: "2",
-      name: "Snake Plant",
-      price: 2909,
-      image: indoor2,
-      description: "Low maintenance plant ideal for beginners",
+    if (categoryParam) {
+      const matched = categories.find(
+        (cat) =>
+          cat.label.toLowerCase() === categoryParam.toLowerCase() ||
+          cat.value.toLowerCase() === categoryParam.toLowerCase()
+      );
+      setSelectedCategory(matched ? matched.value : "all");
+    }
+  }, [location.search]);
 
-      hasPot: true,
-      potPrice: 12,
-    },
-    {
-      id: "3",
-      name: "Lavender Bush",
-      price: 2500,
-      image: outdoor3,
-      description: "Fresh colorful tulips perfect for any occasion",
+  const filteredProducts = data?.filter((product) => {
+    const matchesSearch =
+      product.name.toLowerCase().includes(searchTerm.toLowerCase()) ||
+      product.description.toLowerCase().includes(searchTerm.toLowerCase());
 
-      hasPot: false,
-    },
-    {
-      id: "4",
-      name: "Rose Bush",
-      price: 3500,
-      image: outdoor2,
-      description: "Beautiful roses for your outdoor garden",
+    const matchesCategory =
+      selectedCategory === "all" ||
+      product.category.name.toLowerCase() === selectedCategory.toLowerCase();
 
-      hasPot: true,
-      potPrice: 18,
-    },
-    {
-      id: "5",
-      name: "Peace Lily",
-      price: 2000,
-      image: flower4,
-      description: "Premium ceramic planters in various sizes",
-
-      hasPot: false,
-    },
-    {
-      id: "6",
-      name: "sunflower seeds",
-      price: 1800,
-      image: flower3,
-      description: "Fragrant lavender flowers for relaxation",
-
-      hasPot: true,
-      potPrice: 13,
-    },
-  ];
-
-  const categories = [
-    {
-      name: "Indoor Plants",
-      image: indoor2,
-      count: "10+ Plants",
-      icon: Leaf,
-    },
-    {
-      name: "Outdoor Plants",
-      image: outdoor2,
-      count: "10+ Plants",
-      icon: Leaf,
-    },
-    {
-      name: "Fresh Flowers",
-      image: flower3,
-      count: "5+ Varieties",
-      icon: Flower,
-    },
-    {
-      name: "Designer Pots",
-      image:
-        "https://images.unsplash.com/photo-1578662996442-48f60103fc96?w=300",
-      count: "4+ Designs",
-      icon: ShoppingCart,
-    },
-  ];
+    return matchesSearch && matchesCategory;
+  });
 
   const features = [
     {
@@ -175,6 +152,7 @@ const HomePage = () => {
     <div className="min-h-screen bg-white">
       <Header />
 
+      {/* Hero Section */}
       <section className="bg-[#D9EBF7] py-16 mt-7 rounded-lg shadow-md mx-4 md:mx-16 lg:mx-32 px-4 md:px-16 lg:px-32">
         <div className="grid grid-cols-1 lg:grid-cols-2 gap-10 items-center">
           <motion.div
@@ -214,6 +192,7 @@ const HomePage = () => {
         </div>
       </section>
 
+      {/* Featured Products */}
       <section className="py-16 mt-10 px-4 md:px-16 lg:px-32">
         <motion.div
           className="bg-[#F4F4F4] rounded-2xl shadow-lg p-6 md:p-12"
@@ -237,36 +216,15 @@ const HomePage = () => {
             </p>
           </motion.div>
 
-          <motion.div
-            className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6"
-            variants={{
-              hidden: {},
-              visible: {
-                transition: {
-                  staggerChildren: 0.15,
-                },
-              },
-            }}
-            // initial="hidden"
-            whileInView="visible"
-            viewport={{ once: true }}
-          >
-            {data?.slice(0, 3)?.map((product) => (
-              <motion.div
+          <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
+            {filteredProducts?.slice(0, 3).map((product) => (
+              <ProductCard
                 key={product.id}
-                // variants={{
-                //   hidden: { opacity: 0, y: 20 },
-                //   visible: { opacity: 1, y: 0 },
-                // }}
-                transition={{ duration: 0.5 }}
-              >
-                <ProductCard
-                  product={{ ...product, currency: "NPR" }}
-                  className="h-[200px]"
-                />
-              </motion.div>
+                product={{ ...product, currency: "NPR" }}
+                className="h-[200px]"
+              />
             ))}
-          </motion.div>
+          </div>
 
           <motion.div
             className="text-center mt-12"
@@ -285,6 +243,7 @@ const HomePage = () => {
         </motion.div>
       </section>
 
+      {/* Categories */}
       <section className="py-16 px-4 md:px-16 lg:px-32">
         <motion.div
           className="bg-[#F4F4F4] rounded-2xl shadow-lg p-6 md:p-12"
@@ -297,7 +256,6 @@ const HomePage = () => {
             className="text-center mb-12"
             initial={{ opacity: 0, y: -20 }}
             whileInView={{ opacity: 1, y: 0 }}
-            viewport={{ once: true }}
             transition={{ duration: 0.6 }}
           >
             <h2 className="text-3xl md:text-4xl font-bold text-gray-900 mb-4">
@@ -308,29 +266,9 @@ const HomePage = () => {
             </p>
           </motion.div>
 
-          <motion.div
-            className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-6"
-            variants={{
-              hidden: {},
-              visible: {
-                transition: {
-                  staggerChildren: 0.15,
-                },
-              },
-            }}
-            initial="hidden"
-            whileInView="visible"
-            viewport={{ once: true, amount: 0.3 }}
-          >
+          <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-6">
             {categories.map((category, index) => (
-              <motion.div
-                key={index}
-                variants={{
-                  hidden: { opacity: 0, scale: 0.95, y: 20 },
-                  visible: { opacity: 1, scale: 1, y: 0 },
-                }}
-                transition={{ duration: 0.5 }}
-              >
+              <Link to={`/products?category=${category.label}`} key={index}>
                 <Card className="group hover:shadow-lg transition-all duration-300 cursor-pointer border-0 shadow-md rounded-xl overflow-hidden bg-white">
                   <div className="relative overflow-hidden">
                     <img
@@ -351,13 +289,14 @@ const HomePage = () => {
                     </p>
                   </CardContent>
                 </Card>
-              </motion.div>
+              </Link>
             ))}
-          </motion.div>
+          </div>
         </motion.div>
       </section>
 
-      <div className="px-4 py-8 md:px-16 lg:px-32">
+      {/* Features */}
+      <section className="px-4 py-8 md:px-16 lg:px-32">
         <motion.div
           className="bg-[#F4F4F4] rounded-2xl shadow-lg p-6 md:p-12"
           initial={{ opacity: 0, y: 30 }}
@@ -369,34 +308,15 @@ const HomePage = () => {
             className="text-center text-3xl md:text-4xl font-semibold text-gray-800 mb-10"
             initial={{ opacity: 0, y: -20 }}
             whileInView={{ opacity: 1, y: 0 }}
-            viewport={{ once: true }}
             transition={{ duration: 0.6 }}
           >
             WHY <span className="text-green-500">BAGAICHA NEPAL?</span>
           </motion.h2>
 
-          <motion.div
-            className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-8"
-            variants={{
-              hidden: {},
-              visible: {
-                transition: {
-                  staggerChildren: 0.15,
-                },
-              },
-            }}
-            initial="hidden"
-            whileInView="visible"
-            viewport={{ once: true, amount: 0.3 }}
-          >
+          <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-8">
             {features.map((feature, index) => (
-              <motion.div
+              <div
                 key={index}
-                variants={{
-                  hidden: { opacity: 0, y: 20, scale: 0.95 },
-                  visible: { opacity: 1, y: 0, scale: 1 },
-                }}
-                transition={{ duration: 0.5 }}
                 className="flex flex-col items-center text-center bg-white p-6 rounded-xl shadow hover:shadow-md transition"
               >
                 <img
@@ -408,12 +328,13 @@ const HomePage = () => {
                   {feature.title}
                 </h3>
                 <p className="text-sm text-gray-600">{feature.description}</p>
-              </motion.div>
+              </div>
             ))}
-          </motion.div>
+          </div>
         </motion.div>
-      </div>
+      </section>
 
+      {/* Location */}
       <div className="px-4 py-8 pb-14 md:px-16 lg:px-32">
         <div className="flex items-center justify-center mb-8">
           <h1 className="text-black font-bold text-3xl md:text-4xl">
@@ -434,6 +355,7 @@ const HomePage = () => {
         </div>
       </div>
 
+      {/* Footer */}
       <footer className="bg-[#F2F2F2] text-black py-12">
         <div className="container mx-auto px-4">
           <div className="grid md:grid-cols-4 gap-8">
@@ -451,34 +373,22 @@ const HomePage = () => {
               <h4 className="text-lg font-semibold mb-4">Quick Links</h4>
               <ul className="space-y-2 text-black">
                 <li>
-                  <Link
-                    to="/"
-                    className="hover:text-green-400 transition-colors"
-                  >
+                  <Link to="/" className="hover:text-green-400">
                     Home
                   </Link>
                 </li>
                 <li>
-                  <Link
-                    to="/products"
-                    className="hover:text-green-400 transition-colors"
-                  >
+                  <Link to="/products" className="hover:text-green-400">
                     Products
                   </Link>
                 </li>
                 <li>
-                  <Link
-                    to="/about"
-                    className="hover:text-green-400 transition-colors"
-                  >
+                  <Link to="/about" className="hover:text-green-400">
                     About
                   </Link>
                 </li>
                 <li>
-                  <Link
-                    to="/contact"
-                    className="hover:text-green-400 transition-colors"
-                  >
+                  <Link to="/contact" className="hover:text-green-400">
                     Contact
                   </Link>
                 </li>
@@ -489,26 +399,17 @@ const HomePage = () => {
               <h4 className="text-lg font-semibold mb-4">Categories</h4>
               <ul className="space-y-2 text-black">
                 <li>
-                  <a
-                    href="#"
-                    className="hover:text-green-400 transition-colors"
-                  >
+                  <a href="#" className="hover:text-green-400">
                     Indoor Plants
                   </a>
                 </li>
                 <li>
-                  <a
-                    href="#"
-                    className="hover:text-green-400 transition-colors"
-                  >
+                  <a href="#" className="hover:text-green-400">
                     Outdoor Plants
                   </a>
                 </li>
                 <li>
-                  <a
-                    href="#"
-                    className="hover:text-green-400 transition-colors"
-                  >
+                  <a href="#" className="hover:text-green-400">
                     Fresh Flowers
                   </a>
                 </li>
@@ -517,24 +418,21 @@ const HomePage = () => {
 
             <div>
               <h4 className="text-lg font-semibold mb-4">Contact Info</h4>
-              <div className="space-y-2 text-gray-black">
+              <div className="space-y-2 text-black">
                 <p className="flex items-center">
-                  <MapPin className="w-4 h-4 mr-2" />
-                  New Baneshwor, Kathmandu
+                  <MapPin className="w-4 h-4 mr-2" /> New Baneshwor, Kathmandu
                 </p>
                 <p className="flex items-center">
-                  <Phone className="w-4 h-4 mr-2" />
-                  +977 9744337622
+                  <Phone className="w-4 h-4 mr-2" /> +977 9744337622
                 </p>
                 <p className="flex items-center">
-                  <Mail className="w-4 h-4 mr-2" />
-                  bagaichanepal123@gmail.com
+                  <Mail className="w-4 h-4 mr-2" /> bagaichanepal123@gmail.com
                 </p>
               </div>
             </div>
           </div>
 
-          <div className="border-t border-green-400 mt-8 pt-8 text-center black">
+          <div className="border-t border-green-400 mt-8 pt-8 text-center">
             <p>&copy; 2025 Bagaicha Nepal. All rights reserved.</p>
           </div>
         </div>
