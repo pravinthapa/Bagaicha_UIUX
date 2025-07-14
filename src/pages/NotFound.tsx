@@ -47,7 +47,7 @@ const NotFound = () => {
               
               {/* Action Buttons */}
               <div className="space-y-4 sm:space-y-0 sm:space-x-4 sm:flex sm:justify-center">
-                <Link to="/">
+                <Link to="/home">
                   <Button className="w-full sm:w-auto bg-gradient-to-r from-green-600 to-emerald-600 hover:from-green-700 hover:to-emerald-700 text-white px-8 py-4 text-lg font-semibold rounded-xl shadow-lg hover:shadow-xl transition-all duration-300 transform hover:scale-105">
                     <Home className="w-5 h-5 mr-2" />
                     Go Home

@@ -47,7 +47,7 @@ const categories = [
     value: "all",
     label: "All Products",
     name: "all",
-    count: "20+ Plants",
+
     image: indoor2,
     icon: Leaf,
   },
@@ -55,7 +55,7 @@ const categories = [
     value: "Indoor",
     label: "Indoor Plants",
     name: "Indoor Plants",
-    count: "10+ Plants",
+
     image: indoor1,
     icon: Leaf,
   },
@@ -63,7 +63,7 @@ const categories = [
     value: "outdoor",
     label: "Outdoor Plants",
     name: "Outdoor Plants",
-    count: "8+ Plants",
+
     image: outdoor2,
     icon: Leaf,
   },
@@ -71,7 +71,7 @@ const categories = [
     value: "flower",
     label: "Flower",
     name: "Fresh Flowers",
-    count: "5+ Varieties",
+
     image: flower3,
     icon: Flower,
   },
@@ -268,13 +268,17 @@ const HomePage = () => {
 
           <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-6">
             {categories.map((category, index) => (
-              <Link to={`/products?category=${category.label}`} key={index}>
+              <Link
+                to="/products"
+                state={{ category: category.value }}
+                key={index}
+              >
                 <Card className="group hover:shadow-lg transition-all duration-300 cursor-pointer border-0 shadow-md rounded-xl overflow-hidden bg-white">
                   <div className="relative overflow-hidden">
                     <img
                       src={category.image}
                       alt={category.name}
-                      className="w-full h-48 object-cover group-hover:scale-105 transition-transform duration-300"
+                      className="w-full h-48 object-contain group-hover:scale-105 transition-transform duration-300"
                     />
                     <div className="absolute top-4 right-4 bg-green-600 text-white p-2 rounded-full">
                       <category.icon className="w-5 h-5" />

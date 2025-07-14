@@ -5,12 +5,13 @@ import { Leaf, Check, Star, ArrowLeft, Gift, Truck, Heart } from "lucide-react";
 import { useNavigate } from "react-router-dom";
 import indoor7 from "../../public/assets/indoor7-removebg-preview.png";
 import outdoor1 from "../../public/assets/outdoor1-removebg-preview.png";
-import flower2 from "../../public/assets/flowers3-removebg-preview.png";
 import flower3 from "../../public/assets/flowers6-removebg-preview.png";
 
+import { useCartContext } from "@/contexts/CartContext"; // <-- Import your cart context
 
 const Packages = () => {
   const navigate = useNavigate();
+  const { addToCart } = useCartContext(); // <-- get addToCart from context
 
   const packages = [
     {
@@ -73,17 +74,18 @@ const Packages = () => {
     },
   ];
 
-  const renderStars = (rating: number) => {
-    return Array.from({ length: 5 }, (_, i) => (
-      <Star
-        key={i}
-        className={`w-4 h-4 ${
-          i < Math.floor(rating)
-            ? "fill-yellow-400 text-yellow-400"
-            : "text-gray-300"
-        }`}
-      />
-    ));
+  const handleAddToCart = (pkg) => {
+    // Prepare the package object as needed for your cart
+    // For example, add quantity property if your cart expects it
+    const cartItem = {
+      id: pkg.id,
+      name: pkg.name,
+      price: pkg.price,
+      image: pkg.image,
+      quantity: 1,
+    };
+    addToCart(cartItem);
+    navigate("/cart");
   };
 
   return (
@@ -188,7 +190,6 @@ const Packages = () => {
                 </div>
               )}
 
-              {/* ✅ Updated Image Container */}
               <div className="h-[250px] bg-white flex items-center justify-center overflow-hidden relative">
                 <img
                   src={pkg.image}
@@ -254,6 +255,7 @@ const Packages = () => {
                 </div>
 
                 <Button
+                  onClick={() => handleAddToCart(pkg)}
                   className={`w-full py-3 text-lg font-semibold rounded-xl shadow-lg hover:shadow-xl transition-all duration-300 transform hover:scale-105 ${
                     pkg.popular
                       ? "bg-gradient-to-r from-green-600 to-emerald-600 hover:from-green-700 hover:to-emerald-700 text-white"

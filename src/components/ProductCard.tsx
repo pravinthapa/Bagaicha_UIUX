@@ -55,9 +55,9 @@ const ProductCard = ({ product }: ProductCardProps) => {
   };
 
   const handleShopNow = (e: React.MouseEvent) => {
+    e.preventDefault();
     e.stopPropagation();
-    // You can also store the product in context or localStorage for checkout
-    navigate("/checkout", { state: { product } });
+    navigate(`/checkout/${product.id}`, { state: { product } });
   };
 
   const handleProductClick = () => {
@@ -65,45 +65,45 @@ const ProductCard = ({ product }: ProductCardProps) => {
   };
 
   return (
-    <Card
-      className="group overflow-hidden border-0 shadow-lg hover:shadow-2xl bg-white cursor-pointer relative"
-      onClick={handleProductClick}
-    >
-      <CardHeader className="p-0 relative overflow-hidden">
-        <div className="h-56 bg-gradient-to-br from-emerald-50 to-green-50 flex items-center justify-center p-4 relative overflow-hidden">
-          <img
-            src={product.image}
-            alt={product.name}
-            className="max-h-full max-w-full object-contain transition-transform duration-500 group-hover:scale-105"
-          />
-          <div className="absolute inset-0 bg-gradient-to-t from-black/30 via-transparent to-transparent opacity-0 group-hover:opacity-100 transition-opacity duration-500" />
-          <div className="absolute inset-0 flex items-center justify-center opacity-0 group-hover:opacity-100 transition-all duration-300">
-            <Button className="bg-white/90 backdrop-blur-sm text-emerald-600 hover:bg-white font-semibold rounded-full px-5 py-1.5 shadow-xl text-sm transform translate-y-4 group-hover:translate-y-0 transition-all duration-300">
-              Quick View
-            </Button>
+    <Card className="group overflow-hidden border-0 shadow-lg hover:shadow-2xl bg-white relative">
+      {/* This div captures clicks for navigating to product detail */}
+      <div onClick={handleProductClick} className="cursor-pointer">
+        <CardHeader className="p-0 relative overflow-hidden">
+          <div className="h-56 bg-gradient-to-br from-emerald-50 to-green-50 flex items-center justify-center p-4 relative overflow-hidden">
+            <img
+              src={product.image}
+              alt={product.name}
+              className="max-h-full max-w-full object-contain transition-transform duration-500 group-hover:scale-105"
+            />
+            <div className="absolute inset-0 bg-gradient-to-t from-black/30 via-transparent to-transparent opacity-0 group-hover:opacity-100 transition-opacity duration-500" />
+            <div className="absolute inset-0 flex items-center justify-center opacity-0 group-hover:opacity-100 transition-all duration-300">
+              <Button className="bg-white/90 backdrop-blur-sm text-emerald-600 hover:bg-white font-semibold rounded-full px-5 py-1.5 shadow-xl text-sm transform translate-y-4 group-hover:translate-y-0 transition-all duration-300">
+                Quick View
+              </Button>
+            </div>
           </div>
-        </div>
-      </CardHeader>
+        </CardHeader>
 
-      <CardContent className="p-4 space-y-3">
-        <CardTitle className="text-base font-semibold text-gray-900 group-hover:text-emerald-600 transition-colors duration-300 leading-tight">
-          {product.name}
-        </CardTitle>
-        <p className="text-gray-600 text-sm leading-relaxed line-clamp-2">
-          {product.description || product.meta_description}
-        </p>
+        <CardContent className="p-4 space-y-3">
+          <CardTitle className="text-base font-semibold text-gray-900 group-hover:text-emerald-600 transition-colors duration-300 leading-tight">
+            {product.name}
+          </CardTitle>
+          <p className="text-gray-600 text-sm leading-relaxed line-clamp-2">
+            {product.description || product.meta_description}
+          </p>
 
-        <div className="flex items-center space-x-3">
-          <span className="text-gray-900 font-bold">
-            NPR {product.discount_price ?? product.price}
-          </span>
-          {discountPercent > 0 && (
-            <span className="bg-red-100 text-red-700 px-2 py-0.5 rounded text-xs font-semibold">
-              {discountPercent}% OFF
+          <div className="flex items-center space-x-3">
+            <span className="text-gray-900 font-bold">
+              NPR {product.discount_price ?? product.price}
             </span>
-          )}
-        </div>
-      </CardContent>
+            {discountPercent > 0 && (
+              <span className="bg-red-100 text-red-700 px-2 py-0.5 rounded text-xs font-semibold">
+                {discountPercent}% OFF
+              </span>
+            )}
+          </div>
+        </CardContent>
+      </div>
 
       <CardFooter className="p-4 pt-0 flex gap-2">
         <Button
@@ -116,7 +116,6 @@ const ProductCard = ({ product }: ProductCardProps) => {
         >
           Shop Now
         </Button>
-
         <Button
           onClick={handleAddToCart}
           disabled={isLoading}

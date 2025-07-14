@@ -1,5 +1,5 @@
-import { useState } from "react";
-import { useNavigate } from "react-router-dom";
+import { useEffect, useState } from "react";
+import { useNavigate, useParams } from "react-router-dom";
 import Header from "@/components/Header";
 import ProductCard from "@/components/ProductCard";
 import { Button } from "@/components/ui/button";
@@ -42,7 +42,17 @@ import {
 } from "@/components/ui/select";
 import { useProductData } from "@/hooks/useQueryData";
 
+import { useLocation } from "react-router-dom";
 const Products = () => {
+  const location = useLocation();
+  const categoryFromState = location.state?.category;
+  console.log(categoryFromState, "dqsdasd");
+
+  useEffect(() => {
+    if (categoryFromState) {
+      setSelectedCategory(categoryFromState);
+    }
+  }, [categoryFromState]);
   const navigate = useNavigate();
   const [searchTerm, setSearchTerm] = useState("");
   const [selectedCategory, setSelectedCategory] = useState("all");
