@@ -67,7 +67,7 @@ const Cart = () => {
           </Button>
         </div>
 
-        <h1 className="text-[35px] font-bold bg-gradient-to-r from-green-600 to-emerald-600 bg-clip-text text-transparent mb-8  text-center">
+        <h1 className="text-[35px] font-bold bg-gradient-to-r from-green-600 to-emerald-600 bg-clip-text text-transparent mb-8 text-center">
           Shopping Cart
         </h1>
 
@@ -79,13 +79,13 @@ const Cart = () => {
                 key={item.id}
                 className="border-0 shadow-lg bg-gradient-to-r from-white to-green-50/30 hover:shadow-xl transition-all duration-300"
               >
-                <CardContent className="p-6">
-                  <div className="flex items-center space-x-4">
-                    <div className="relative">
+                <CardContent className="p-4 sm:p-6">
+                  <div className="flex flex-col sm:flex-row sm:items-center space-y-4 sm:space-y-0 sm:space-x-4">
+                    <div className="relative flex-shrink-0">
                       <img
                         src={item.image}
                         alt={item.name}
-                        className="w-20 h-20 object-cover rounded-xl shadow-md"
+                        className="w-24 h-24 sm:w-20 sm:h-20 object-cover rounded-xl shadow-md"
                       />
                     </div>
 
@@ -98,7 +98,7 @@ const Cart = () => {
                       </p>
                     </div>
 
-                    <div className="flex items-center space-x-2 bg-gradient-to-r from-gray-50 to-green-50 rounded-xl p-3 border border-green-100">
+                    <div className="flex items-center space-x-2 bg-gradient-to-r from-gray-50 to-green-50 rounded-xl p-2 sm:p-3 border border-green-100">
                       <Button
                         variant="outline"
                         size="icon"
@@ -107,12 +107,13 @@ const Cart = () => {
                             updateQuantity(item.id, item.quantity - 1);
                           }
                         }}
-                        className="h-8 w-8 border-green-200 hover:bg-green-100 hover:border-green-300 rounded-lg"
+                        className="h-8 w-8 sm:h-10 sm:w-10 border-green-200 hover:bg-green-100 hover:border-green-300 rounded-lg"
+                        aria-label={`Decrease quantity of ${item.name}`}
                       >
-                        <Minus className="w-4 h-4" />
+                        <Minus className="w-4 h-4 sm:w-5 sm:h-5" />
                       </Button>
 
-                      <span className="w-12 text-center font-semibold text-gray-700">
+                      <span className="w-10 text-center font-semibold text-gray-700 text-lg">
                         {item.quantity}
                       </span>
 
@@ -122,13 +123,14 @@ const Cart = () => {
                         onClick={() =>
                           updateQuantity(item.id, item.quantity + 1)
                         }
-                        className="h-8 w-8 border-green-200 hover:bg-green-100 hover:border-green-300 rounded-lg"
+                        className="h-8 w-8 sm:h-10 sm:w-10 border-green-200 hover:bg-green-100 hover:border-green-300 rounded-lg"
+                        aria-label={`Increase quantity of ${item.name}`}
                       >
-                        <Plus className="w-4 h-4" />
+                        <Plus className="w-4 h-4 sm:w-5 sm:h-5" />
                       </Button>
                     </div>
 
-                    <div className="text-right">
+                    <div className="text-right flex-shrink-0">
                       <p className="text-xl font-bold text-gray-900 mb-2">
                         RS {(item.price * item.quantity).toFixed(2)}
                       </p>
@@ -137,6 +139,7 @@ const Cart = () => {
                         size="sm"
                         onClick={() => removeFromCart(item.id)}
                         className="text-red-500 hover:text-red-600 hover:bg-red-50 rounded-lg"
+                        aria-label={`Remove ${item.name} from cart`}
                       >
                         <Trash2 className="w-4 h-4 mr-1" />
                         Remove
@@ -150,7 +153,7 @@ const Cart = () => {
 
           {/* Order Summary */}
           <div>
-            <Card className="border-0 shadow-xl bg-gradient-to-br from-white to-green-50">
+            <Card className="border-0 shadow-xl bg-gradient-to-br from-white to-green-50 rounded-xl">
               <CardHeader className="bg-gradient-to-r from-green-600 to-emerald-600 text-white rounded-t-xl">
                 <CardTitle className="text-center text-xl">
                   Order Summary

@@ -99,15 +99,21 @@ const ProductDetails = () => {
         <Button
           variant="ghost"
           onClick={() => navigate("/products")}
-          className="mb-6 text-green-600 hover:text-green-700 transition-colors"
+          className="mb-6 text-green-600 hover:text-green-700 transition-colors flex items-center w-max"
         >
           <ArrowLeft className="w-4 h-4 mr-2" />
           Back to Products
         </Button>
 
-        <div className="grid lg:grid-cols-2 gap-12 mb-16">
+        <div className="grid grid-cols-1 lg:grid-cols-2 gap-12 mb-16">
           <div className="space-y-4">
-            <div className="aspect-square overflow-hidden rounded-xl h-[400px] w-[500px] bg-white shadow-lg flex items-center justify-center">
+            <div
+              className="
+                aspect-square overflow-hidden rounded-xl bg-white shadow-lg flex items-center justify-center
+                w-full max-w-full h-auto
+                lg:h-[400px] lg:w-[500px]
+              "
+            >
               <img
                 src={product.image ?? "/assets/placeholder-plant.png"}
                 alt={product.name}
@@ -162,6 +168,7 @@ const ProductDetails = () => {
                 <button
                   onClick={() => setQuantity((q) => Math.max(1, q - 1))}
                   className="px-4 py-2 bg-gray-100 hover:bg-gray-200 text-xl"
+                  aria-label="Decrease quantity"
                 >
                   -
                 </button>
@@ -171,6 +178,7 @@ const ProductDetails = () => {
                 <button
                   onClick={() => setQuantity((q) => q + 1)}
                   className="px-4 py-2 bg-gray-100 hover:bg-gray-200 text-xl"
+                  aria-label="Increase quantity"
                 >
                   +
                 </button>
@@ -193,7 +201,7 @@ const ProductDetails = () => {
                     <div className="w-2 h-2 bg-black rounded-full mr-3"></div>
                     Care Instructions
                   </h3>
-                  <ul className="list-disc  pl-5 text-gray-700">
+                  <ul className="list-disc pl-5 text-gray-700">
                     {convertToPoints(product.care_instructions)}
                   </ul>
                 </CardContent>

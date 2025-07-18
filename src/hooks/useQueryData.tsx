@@ -41,3 +41,7 @@ export const useProductDetails = (id) =>
 export const useFeatureProducts = () =>
   useQueryData(["feature"], `dashboard/feature/`);
 
+
+export const useUserData = () =>
+  useQueryData(["Profile"], `accounts/profile/`);
+

@@ -57,7 +57,7 @@ const ProductCard = ({ product }: ProductCardProps) => {
   const handleShopNow = (e: React.MouseEvent) => {
     e.preventDefault();
     e.stopPropagation();
-    navigate(`/checkout/${product.id}`, { state: { product } });
+    navigate(`/checkout/${product.id}`, { state: { product } }); // ✅ Navigates with product state
   };
 
   const handleProductClick = () => {
@@ -66,7 +66,6 @@ const ProductCard = ({ product }: ProductCardProps) => {
 
   return (
     <Card className="group overflow-hidden border-0 shadow-lg hover:shadow-2xl bg-white relative">
-      {/* This div captures clicks for navigating to product detail */}
       <div onClick={handleProductClick} className="cursor-pointer">
         <CardHeader className="p-0 relative overflow-hidden">
           <div className="h-56 bg-gradient-to-br from-emerald-50 to-green-50 flex items-center justify-center p-4 relative overflow-hidden">
@@ -109,10 +108,10 @@ const ProductCard = ({ product }: ProductCardProps) => {
         <Button
           onClick={handleShopNow}
           className="w-1/2 bg-white border border-emerald-600 text-emerald-600 
-             hover:bg-gradient-to-r hover:from-emerald-600 hover:to-green-600 
-             hover:text-white hover:border-transparent 
-             font-bold py-3 text-sm rounded-lg shadow-sm 
-             hover:shadow-md transition-all duration-300"
+            hover:bg-gradient-to-r hover:from-emerald-600 hover:to-green-600 
+            hover:text-white hover:border-transparent 
+            font-bold py-3 text-sm rounded-lg shadow-sm 
+            hover:shadow-md transition-all duration-300"
         >
           Shop Now
         </Button>

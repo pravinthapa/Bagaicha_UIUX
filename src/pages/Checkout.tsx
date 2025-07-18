@@ -380,6 +380,9 @@ const Checkout = () => {
       <FakeEsewaModal
         open={showEsewaModal}
         onClose={() => setShowEsewaModal(false)}
+        amount={total}
+        productId={`PID${Date.now()}`}
+        merchantNumber="9744337622" // 👈 Your eSewa number for demo
         onConfirm={(refId) => {
           setFakeEsewaRefId(refId);
           setShowEsewaModal(false);
