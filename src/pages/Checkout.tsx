@@ -1,5 +1,5 @@
 import { useState } from "react";
-import { useNavigate, useParams } from "react-router-dom";
+import { useLocation, useNavigate, useParams } from "react-router-dom";
 import Header from "@/components/Header";
 import { Button } from "@/components/ui/button";
 import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card";
@@ -21,6 +21,8 @@ import FakeEsewaModal from "./FakeEsewaModal";
 
 const Checkout = () => {
   const navigate = useNavigate();
+  const location = useLocation();
+  const formerPath = location?.state?.path;
   const { id } = useParams();
   const { cartItems, getTotalPrice, clearCart } = useCartContext();
   const { addOrder } = useOrderContext();
@@ -80,13 +82,11 @@ const Checkout = () => {
   const handleSubmit = async (e: React.FormEvent) => {
     e.preventDefault();
 
-    // If payment method is eSewa, open the modal first
     if (formData.paymentMethod === "esewa") {
       setShowEsewaModal(true);
       return;
     }
 
-    // Else directly place order
     placeOrder();
   };
 
@@ -134,12 +134,12 @@ const Checkout = () => {
       <div className="max-w-6xl mx-auto px-4 sm:px-6 lg:px-8 py-8">
         <div className="mb-6">
           <Button
-            onClick={() => navigate("/cart")}
+            onClick={() => navigate(formerPath ?? "/cart")}
             variant="ghost"
             className="flex items-center text-green-600 hover:text-green-700 hover:bg-green-50"
           >
             <ArrowLeft className="w-4 h-4 mr-2" />
-            Back to Cart
+            Back{" "}
           </Button>
         </div>
 

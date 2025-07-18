@@ -148,7 +148,7 @@ const Header = () => {
 
         {isMenuOpen && (
           <div className="md:hidden">
-            <div className="px-4 pt-3 pb-5 space-y-2 border-t border-green-100 text-base font-medium">
+            <div className="px-4 pt-3 pb-5 space-y-2 flex-col flex items-center  border-t border-green-100 text-base font-medium">
               <NavLink
                 to="/home"
                 onClick={() => setIsMenuOpen(false)}
@@ -224,7 +224,7 @@ const Header = () => {
                   onClick={() => setIsMenuOpen(false)}
                   className={navLinkClass}
                 >
-                  Register / Login
+                  {/* Register / Login */}
                 </NavLink>
               )}
             </div>

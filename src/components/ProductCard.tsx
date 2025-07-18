@@ -8,8 +8,9 @@ import {
 } from "@/components/ui/card";
 import { ShoppingCart } from "lucide-react";
 import { useCartContext } from "@/contexts/CartContext";
-import { useNavigate } from "react-router-dom";
+import { useLocation, useNavigate } from "react-router-dom";
 import { useState } from "react";
+import path from "path";
 
 interface Product {
   id: string;
@@ -29,6 +30,7 @@ const ProductCard = ({ product }: ProductCardProps) => {
   const { addToCart } = useCartContext();
   const navigate = useNavigate();
   const [isLoading, setIsLoading] = useState(false);
+  const location = useLocation();
 
   const getDiscountPercent = () => {
     if (!product.discount_price) return 0;
@@ -57,7 +59,9 @@ const ProductCard = ({ product }: ProductCardProps) => {
   const handleShopNow = (e: React.MouseEvent) => {
     e.preventDefault();
     e.stopPropagation();
-    navigate(`/checkout/${product.id}`, { state: { product } }); // ✅ Navigates with product state
+    navigate(`/checkout/${product.id}`, {
+      state: { product: product, path: location.pathname },
+    }); // ✅ Navigates with product state
   };
 
   const handleProductClick = () => {
